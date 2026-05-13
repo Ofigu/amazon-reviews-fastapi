@@ -28,9 +28,6 @@ class ReviewSchema(BaseModel):
     verified_purchase: bool
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello"}
 
 
 @app.get("/reviews", response_model=list[ReviewSchema])
