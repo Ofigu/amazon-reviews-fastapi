@@ -30,7 +30,7 @@ class ReviewSchemaOut(BaseModel):
 class ReviewSchemaUpdate(BaseModel):
     model_config = {"from_attributes": True}
 
-    rating: int = None
+    rating: int | None = None
     title: str = None
     text: str = None
     images: str = None
@@ -76,15 +76,6 @@ def get_reviews_filtered(
         q = q.filter(models.Review.verified_purchase == verified_purchase)
     return q.offset(offset).limit(limit).all()
 
-
-#get specific review
-@app.get("/reviews/{review_id}", response_model=ReviewSchemaOut)
-def get_review(review_id: int, db: Session = Depends(get_db)):
-    review = db.query(models.Review).filter(models.Review.id == review_id).first()
-    if review is None:
-        raise HTTPException(status_code=404, detail="Review not found")
-    return review
-
 #post new review
 @app.post("/reviews", response_model=ReviewSchemaOut, status_code=201)
 def add_review(review: ReviewSchemaIn, db: Session = Depends(get_db)):
@@ -93,6 +84,14 @@ def add_review(review: ReviewSchemaIn, db: Session = Depends(get_db)):
     db.commit() #writing to db
     db.refresh(db_review) #rereads the row from db back into db_review - now with an id assign to
     return db_review
+
+#get specific review
+@app.get("/reviews/{review_id}", response_model=ReviewSchemaOut)
+def get_review(review_id: int, db: Session = Depends(get_db)):
+    review = db.query(models.Review).filter(models.Review.id == review_id).first()
+    if review is None:
+        raise HTTPException(status_code=404, detail="Review not found")
+    return review
 
 #modify exsiting review
 @app.put("/reviews/{review_id}", response_model=ReviewSchemaOut)
@@ -111,3 +110,12 @@ def update_review(
     db.refresh(db_review)
     return db_review
 
+@app.delete("/reviews/{review_id}", status_code=200)
+def delete_review(review_id: int, db: Session = Depends(get_db)):
+    db_review = db.query(models.Review).filter(models.Review.id == review_id).first()
+    if db_review is None:
+        raise HTTPException(status_code=404, detail="Review not found")
+    db.delete(db_review)
+    db.commit()
+    return {"detail": f"review {review_id} deleted"}
+ 
