@@ -2,6 +2,10 @@
 
 A REST API for querying and managing Amazon product reviews, built with FastAPI and SQLite.
 
+## Dataset
+
+Download `Amazon_reviews_2023.csv` from [Kaggle](https://www.kaggle.com/datasets/ravirajbabasomane/amazon-reviews-2023) and place it in the `data/` folder.
+
 ## Setup
 
 ```bash
