@@ -45,7 +45,7 @@ Interactive docs available at `http://127.0.0.1:8000/docs`.
 | `limit` | int | Max results (default 20, max 100) |
 | `offset` | int | Skip N rows for pagination |
 | `asin` | string | Filter by product ASIN |
-| `rating` | int | Filter by rating (1–5) |
+| `rating` | int | Filter by rating (1-5) |
 | `verified_purchase` | bool | Filter by verified purchase status |
 
 ## Data model
