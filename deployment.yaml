@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fastapi-app
+  name: fastapi-app
+spec:
+  replicas: 2
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: fastapi-app
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: fastapi-app
+    spec:
+      containers:
+      - image: amazon-reviews-fastapi-web
+        name: fastapi-app
+        imagePullPolicy: Never
+        resources: {}
+status: {}
