@@ -58,7 +58,7 @@ class ReviewSchemaIn(BaseModel):
 
 #get specific review/s by filter
 @app.get("/reviews", response_model=list[ReviewSchemaOut])
-def get_reviews_filtered(
+def get_reviews_filtered_test(
     limit: int = Query(20, le = 100),
     offset: int = Query(0),
     asin: str | None = Query(None),

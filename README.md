@@ -48,6 +48,37 @@ Interactive docs available at `http://127.0.0.1:8000/docs`.
 | `rating` | int | Filter by rating (1-5) |
 | `verified_purchase` | bool | Filter by verified purchase status |
 
+## Docker
+
+```bash
+docker build -t amazon-reviews-fastapi-web .
+docker compose up
+```
+
+## Kubernetes (minikube)
+
+```bash
+# Point Docker to minikube's daemon (run in each new PowerShell session)
+& minikube -p minikube docker-env --shell powershell | Invoke-Expression
+
+# Build image inside minikube
+docker build -t amazon-reviews-fastapi-web .
+
+# Deploy
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+# Open in browser
+minikube service fastapi-app
+```
+
+After any code change, rebuild and restart:
+
+```bash
+docker build -t amazon-reviews-fastapi-web .
+kubectl rollout restart deployment fastapi-app
+```
+
 ## Data model
 
 | Field | Type |
